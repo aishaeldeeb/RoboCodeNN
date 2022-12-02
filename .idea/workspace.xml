@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="1625b7f9-adfc-4635-a118-23207860f59c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/picocontainer_2_14_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Interfaces/CommonInterface.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Interfaces/LUTInterface.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyRoboCode.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roboCodeTraining/LUT.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roboCodeTraining/Learning.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roboCodeTraining/LogFile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roboCodeTraining/LookUpTable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roboCodeTraining/LookUpTableV2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roboCodeTraining/LookUpTableV3.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roboCodeTraining/LookUpTableV4.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roboCodeTraining/LookUpTableV5.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roboCodeTraining/MainRobot.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roboCodeTraining/MainRobotV2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roboCodeTraining/MainRobotV3.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roboCodeTraining/MainRobotV4.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roboCodeTraining/MainRobotV5.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roboCodeTraining/NN/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roboCodeTraining/NN/Matrix.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roboCodeTraining/NN/NeuralNetwork.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roboCodeTraining/NN/Plot.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roboCodeTraining/State.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roboCodeTraining/myRobot.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2HZhrIQuLX32id08OTP3TnYg7qq" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "C:/robocode/robots/MyRoboCode_V2",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "two.files.diff.last.used.file": "C:/robocode/robots/MyRoboCode/roboCodeTraining/MainRobotV4.java"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="robocode.Robocode" />
+      <module name="MyRoboCode" />
+      <option name="VM_PARAMETERS" value="-Xmx512M -Debug=true -Dsun.io.useCanonCashes=false" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1625b7f9-adfc-4635-a118-23207860f59c" name="Changes" comment="" />
+      <created>1668498714225</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1668498714225</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/roboCodeTraining/myRobot.java</url>
+          <line>288</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/roboCodeTraining/myRobot.java</url>
+          <line>232</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/roboCodeTraining/myRobot.java</url>
+          <line>228</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/roboCodeTraining/MainRobot.java</url>
+          <line>163</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/roboCodeTraining/MainRobot.java</url>
+          <line>147</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/roboCodeTraining/MainRobotV2.java</url>
+          <line>93</line>
+          <option name="timeStamp" value="33" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/roboCodeTraining/MainRobotV3.java</url>
+          <line>235</line>
+          <option name="timeStamp" value="67" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/roboCodeTraining/NN/NeuralNetwork.java</url>
+          <line>73</line>
+          <option name="timeStamp" value="76" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-field">
+          <url>file://$PROJECT_DIR$/roboCodeTraining/LookUpTableV3.java</url>
+          <line>27</line>
+          <properties field="numHeadingCos" class="roboCodeTraining.LookUpTableV3" />
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="Table[prevState[0]][prevState[1]][prevState[2]][1]" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/MyRoboCode$Unnamed.ic" NAME="Unnamed Coverage Results" MODIFIED="1669684982357" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+</project>
