@@ -40,6 +40,8 @@ public class Main{
 
 
     public static double[] inputArray = new double[numInputs];
+    static boolean isBipolar=true;
+
 
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));

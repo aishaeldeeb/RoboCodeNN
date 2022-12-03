@@ -26,22 +26,22 @@ public class NeuralNetwork {
         Matrix input = Matrix.fromArray(X);
         Matrix hidden = Matrix.multiply(weights_ih, input);
         hidden.add(bias_h);
-        hidden.customSigmoid();
-//        if (Main.isBipolar) {
-//            hidden.customSigmoid();
-//        } else {
-//            hidden.sigmoid();
-//        }
+
+        if (Main.isBipolar) {
+            hidden.customSigmoid();
+        } else {
+            hidden.sigmoid();
+        }
 
 
         Matrix output = Matrix.multiply(weights_ho, hidden);
         output.add(bias_o);
-        output.customSigmoid();
-//        if (Main.isBipolar) {
-//            output.customSigmoid();
-//        } else {
-//            output.sigmoid();
-//        }
+
+        if (Main.isBipolar) {
+            output.customSigmoid();
+        } else {
+            output.sigmoid();
+        }
 
 
         return output.toArray();
@@ -98,34 +98,35 @@ public class NeuralNetwork {
         Matrix input = Matrix.fromArray(X);
         Matrix hidden = Matrix.multiply(weights_ih, input);
         hidden.add(bias_h);
-        hidden.customSigmoid();
-//        if (Main.isBipolar) {
-//            hidden.customSigmoid();
-//        }else {
-//            hidden.sigmoid();
-//        }
+
+        if (Main.isBipolar) {
+            hidden.customSigmoid();
+        }else {
+            hidden.sigmoid();
+        }
 
 
         Matrix output = Matrix.multiply(weights_ho, hidden);
         output.add(bias_o);
-        output.customSigmoid();
-//        if (Main.isBipolar) {
-//            output.customSigmoid();
-//        }else{
-//            output.sigmoid();
-//        }
+
+
+        if (Main.isBipolar) {
+            output.customSigmoid();
+        }else{
+            output.sigmoid();
+        }
 
 
         Matrix target = Matrix.fromArray(Y);
 
         Matrix error = Matrix.subtract(target, output);
         Matrix gradient;
-        gradient = output.dCustomsigmoid();
-//        if (Main.isBipolar) {
-//            gradient = output.dCustomsigmoid();
-//        }else{
-//            gradient = output.dsigmoid();
-//        }
+
+        if (Main.isBipolar) {
+            gradient = output.dCustomsigmoid();
+        }else{
+            gradient = output.dsigmoid();
+        }
 
         gradient.multiply(error);
         gradient.multiply(l_rate);
@@ -143,12 +144,12 @@ public class NeuralNetwork {
         Matrix who_T = Matrix.transpose(weights_ho);
         Matrix hidden_errors = Matrix.multiply(who_T, error);
         Matrix h_gradient;
-        h_gradient = hidden.dCustomsigmoid();
-//        if (Main.isBipolar) {
-//            h_gradient = hidden.dCustomsigmoid();
-//        }else{
-//            h_gradient = hidden.dsigmoid();
-//        }
+
+        if (Main.isBipolar) {
+            h_gradient = hidden.dCustomsigmoid();
+        }else{
+            h_gradient = hidden.dsigmoid();
+        }
 
         h_gradient.multiply(hidden_errors);
         h_gradient.multiply(l_rate);

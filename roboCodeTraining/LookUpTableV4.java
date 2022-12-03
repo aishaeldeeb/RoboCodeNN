@@ -5,6 +5,7 @@ import robocode.RobocodeFileOutputStream;
 import sun.applet.Main;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -425,9 +426,11 @@ public class LookUpTableV4 implements LUTInterface {
 
         double[] actionOnHot;
 
-        double[][] stateAction = new double [numEnergy*numEnergy*numEnemyDis*numX*numY*numActions][numInputsQ];
+        int numStates = numEnergy*numEnergy*numEnemyDis*numX*numY*numActions;
 
-        double[] actionStateArray = new double[numInputsQ];
+        double[][] stateAction = new double [numStates][numInputsQ];
+
+
 
 
         try {
@@ -442,25 +445,45 @@ public class LookUpTableV4 implements LUTInterface {
                                     String[] words = line.split(" ");
                                     QValue = Double.valueOf(words[1]);
 
+                                    double[] actionStateArray = new double[numInputsQ];
                                     actionStateArray[0] = preprocess(b);
                                     actionStateArray[1] = preprocess(d);
                                     actionStateArray[2] = preprocess(e);
                                     actionStateArray[3] = preprocess(c);
                                     actionStateArray[4] = preprocess(g);
+
+                                    //on hot encoding per one action value
                                     actionOnHot = OnHotEncode(f);
 
+
+                                    //store hot encoded action values
                                     for (int i = 0; i < actionOnHot.length; i++){
                                         actionStateArray[i+5] = actionOnHot[i];
                                     }
 
-                                    actionStateArray[10] = QValue/10;
+                                    //store Q value
+                                    actionStateArray[10] = QValue;
 
+                                    //store the 1d array (row) inside the 2d array
                                     for (int i = 0; i < actionStateArray.length; i++){
                                         stateAction[counter][i] = actionStateArray[i];
                                     }
 
                                     counter++;
                                 }
+
+            double[] QCol = getColumn(stateAction, numInputsQ-1);
+            double[] norQCol= normalize(QCol);
+//            double[] norQCol= normalize2(QCol);
+
+            //change 10th col (Q column)
+            for(int i = 0; i < norQCol.length; i++){
+                double max = Arrays.stream(norQCol).max().getAsDouble();
+                double min = Arrays.stream(norQCol).min().getAsDouble();
+
+                stateAction[i][numInputsQ-1] = norQCol[i] ;
+
+            }
         }
         catch (IOException e) {
             initialiseLUT();
@@ -480,26 +503,61 @@ public class LookUpTableV4 implements LUTInterface {
     }
 
     public double preprocess(int i){
-        return ((double) (i+1.0))/10;
+        return ((double) (i+1.0));
     }
 
     public double[] OnHotEncode(int i){
         switch(i){
             case 0:
-                return new double[]{-1, -1, -1, -1, 1};
+                return new double[]{-1.0, -1.0, -1.0, -1.0, 1.0};
             case 1:
-                return new double[]{-1, -1, -1, 1, -1};
+                return new double[]{-1.0, -1.0, -1.0, 1.0, -1.0};
             case 2:
-                return new double[]{-1, -1, 1, -1, -1};
+                return new double[]{-1.0, -1.0, 1.0, -1.0, -1.0};
             case 3:
-                return new double[]{-1, 1, -1, -1, -1};
+                return new double[]{-1.0, 1.0, -1.0, -1.0, -1.0};
             case 4:
-                return new double[]{1, -1, -1, -1, -1};
+                return new double[]{1.0, -1.0, -1.0, -1.0, -1.0};
             default:
-                return new double[]{-1, -1, -1, -1, -1};
+                return new double[]{-1.0, -1.0, -1.0, -1.0, -1.0};
         }
 
 
     }
+
+    public static double[] getColumn(double[][] arr, int index){
+        double[] column = new double[arr[0].length];
+        for(int i = 0; i < column.length; i++){
+            column[i] = arr[i][index];
+        }
+        return column;
+    }
+    public double[] normalize(double[] values){
+        double[] normalized = new double[values.length];
+        double max = Arrays.stream(values).max().getAsDouble();
+        double min = Arrays.stream(values).min().getAsDouble();
+
+        for (int i = 0; i < values.length; i++){
+            normalized[i] = 2 * ((values[i] - min) / (max - min)) - 1;
+        }
+        return normalized;
+
+    }
+
+    public static double[] normalize2(double[] array) {
+        double sum = sum(array);
+        for (int i = 0; i < array.length; i++) {
+            array[i] = array[i] / sum;
+        }
+        return array;
+    }
+    public static double sum(double[] items) {
+        double total = 0;
+        for (double item : items) {
+            total += item;
+        }
+        return total;
+    }
+
 
 }
