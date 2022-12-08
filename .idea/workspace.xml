@@ -2,31 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1625b7f9-adfc-4635-a118-23207860f59c" name="Changes" comment="v2">
-      <change afterPath="$PROJECT_DIR$/roboCodeTraining/LUT/AiRobot.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/roboCodeTraining/LUT/LookUpTable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/roboCodeTraining/RoboCode/Action.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/roboCodeTraining/RoboCode/BeastRobot.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/roboCodeTraining/RoboCode/QLearning.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/roboCodeTraining/RoboCode/State.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roboCodeTraining/RoboCode/ActionReplayMemory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roboCodeTraining/RoboCode/CircularQueue.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roboCodeTraining/RoboCode/ReplayMemory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/roboCodeTraining/LUT.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/roboCodeTraining/Learning.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/roboCodeTraining/LogFile.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/roboCodeTraining/LookUpTable.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/roboCodeTraining/LookUpTableV2.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/roboCodeTraining/LookUpTableV3.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/roboCodeTraining/LookUpTableV4.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/roboCodeTraining/LookUpTableV5.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/roboCodeTraining/MainRobot.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/roboCodeTraining/MainRobotV2.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/roboCodeTraining/MainRobotV3.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/roboCodeTraining/MainRobotV4.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/roboCodeTraining/MainRobotV5.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/roboCodeTraining/NN/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/roboCodeTraining/NN/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/roboCodeTraining/NN/Matrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/roboCodeTraining/NN/Matrix.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/roboCodeTraining/NN/NeuralNetwork.java" beforeDir="false" afterPath="$PROJECT_DIR$/roboCodeTraining/NN/NeuralNetwork.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/roboCodeTraining/State.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/roboCodeTraining/myRobot.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/roboCodeTraining/RoboCode/Action.java" beforeDir="false" afterPath="$PROJECT_DIR$/roboCodeTraining/RoboCode/Action.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/roboCodeTraining/RoboCode/BeastRobot.java" beforeDir="false" afterPath="$PROJECT_DIR$/roboCodeTraining/RoboCode/BeastRobot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/roboCodeTraining/RoboCode/QLearning.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/roboCodeTraining/RoboCode/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/roboCodeTraining/RoboCode/State.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +84,14 @@
       <option name="project" value="LOCAL" />
       <updated>1670109085276</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="v2">
+      <created>1670471019534</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1670471019534</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -120,24 +111,11 @@
     <option name="LAST_COMMIT_MESSAGE" value="v2" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/roboCodeTraining/RoboCode/BeastRobot.java</url>
-          <line>368</line>
-          <option name="timeStamp" value="124" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/roboCodeTraining/RoboCode/BeastRobot.java</url>
-          <line>101</line>
-          <option name="timeStamp" value="125" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="Table[prevState[0]][prevState[1]][prevState[2]][1]" />
         <watch expression="ActionStateQ" language="JAVA" />
+        <watch expression="" />
       </configuration>
     </watches-manager>
   </component>

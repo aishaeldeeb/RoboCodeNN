@@ -1,6 +1,8 @@
 package roboCodeTraining.RoboCode;
 
-public class State {
+import java.util.LinkedList;
+
+public class State<T> extends LinkedList<T> {
 
     public double enemyDistance;
     public double xPos;

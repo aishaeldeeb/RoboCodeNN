@@ -123,11 +123,6 @@ public class NeuralNetwork {
 
 
 
-            try {
-                PlotErrorVsEpoch(errorVsEpoch);
-            } catch(IOException e){
-                System.out.println("IOExpection occured");
-            }
         } while (RMSError > 0.05);
 
         try {
@@ -138,11 +133,6 @@ public class NeuralNetwork {
 
         }
 
-        try {
-            PlotErrorVsEpoch(errorVsEpoch);
-        } catch(IOException e){
-            System.out.println("IOExpection occured");
-        }
     }
 
     public void train(double[] X, double[] Y) {
@@ -218,34 +208,6 @@ public class NeuralNetwork {
         bias_h.add(h_gradient);
 
     }
-    public void PlotErrorVsEpoch(ArrayList<double[]> errorVsEpoch) throws IOException {
-        //convert arrayList to 2 arrays
-        int size = errorVsEpoch.size();
-        double  [] errors = new double[size];
-        double  [] epochs = new double[size];
 
-        for (int i = 0 ; i < errorVsEpoch.size(); i++){
-            errors[i] = errorVsEpoch.get(i)[0];
-            epochs[i] = errorVsEpoch.get(i)[1];
-
-        }
-
-        // configuring plot options
-        Plot plot = Plot.plot(Plot.plotOpts().
-                        title("Error vs. Epoch").
-                        legend(Plot.LegendFormat.BOTTOM)).
-                xAxis("Epoch", Plot.axisOpts().
-                        range(0, 200)).
-                yAxis("Error", Plot.axisOpts().
-                        range(0, 70)).
-                series("Data", Plot.data().
-                                xy(epochs, errors),
-                        Plot.seriesOpts().
-                                marker(Plot.Marker.CIRCLE));
-
-        plot.save("sample_data", "png");
-
-
-    }
 
 }

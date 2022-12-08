@@ -6,6 +6,8 @@ import robocode.*;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
@@ -89,19 +91,31 @@ public class BeastRobot extends AdvancedRobot {
     public static NeuralNetwork nn = new NeuralNetwork(numInputs, numHidden, numOutput, momentum);
     public static double updatedQ;
 
-    public static final double gamma = 0.99;
+    public static final double gamma = 0.4;
     public static final double learnRate = 0.9;
+
+    public static List<State> stateLst;
+    public static List<Action> actionLst;
+
+    public static List<Double> Qlst;
+    public int replayMemSize = 50;
+
+    public static ReplayMemory replay;
+    public static ReplayMemory replayAction;
+
+    public static Object[] replayStateArr;
+    public static Object[] replayActionArr;
 
     public void run() {
 
 
         scan = true;
 
-        if (totalRounds >= 10000){
+        if (totalRounds >= 15000){
             epsilon = 0.0;
         }
 
-        else if(totalRounds < 15000 && totalRounds > 10000 ){
+        else if(totalRounds < 10000 && totalRounds > 15000 ){
             epsilon = 0.6;
         }
         else{
@@ -131,13 +145,21 @@ public class BeastRobot extends AdvancedRobot {
 
                 counter++;
 
-                //pick action index based on state index
-                currentAction = getAction(epsilon, currentState);
+
 
                 //update look up table
                 if (first) {
                     counter = 0;
                     first = false;
+                    stateLst = new ArrayList<>();
+                    actionLst = new ArrayList<>();
+                    Qlst = new ArrayList<>();
+                    replay = new ReplayMemory<>(replayMemSize);
+                    replayAction = new ReplayMemory<>(replayMemSize);
+
+                    replayStateArr = new State[replayMemSize];
+                    replayActionArr = new Action[replayMemSize];
+
 
                 }
 
@@ -193,15 +215,45 @@ public class BeastRobot extends AdvancedRobot {
 
                 }
 
+
                 //backstep
                 double[] prevStateVector = previousState.getStateVector();
                 double[] prevEncodedAction = previousAction.getEncoded();
                 double[] prevStateAction = concatenate(prevStateVector, prevEncodedAction);
 
+
                 updatedQ = backStep(onPolicy, rewards, currentState, currentAction, prevStateAction);
 
                 nn.train(prevStateAction, new double[]{updatedQ});
 
+
+
+
+
+                if (replay.sizeOf() == replayMemSize){
+                    replayStateArr = replay.sample(replayMemSize);
+                    replayActionArr = replayAction.sample(replayMemSize);
+                    for (int i = 0; i < replayMemSize; i++){
+                        if (i == 0) {
+                            double[] currentStateVector = currentState.getStateVector();
+                            double[] currentEncodedAction = currentAction.getEncoded();
+                            double[] currentStateAction = concatenate(currentStateVector, currentEncodedAction);
+                            updatedQ = backStep(onPolicy, rewards, (State) replayStateArr[i], currentAction, currentStateAction);
+                            nn.train(prevStateAction, new double[]{updatedQ});
+                        }
+                        else {
+
+                            double[] currentStateVector = ((State) replayStateArr[i-1]).getStateVector();
+                            double[] currentEncodedAction = ((Action) replayActionArr[i-1]).getEncoded();
+                            double[] currentStateAction = concatenate(currentStateVector, currentEncodedAction);
+                            updatedQ = backStep(onPolicy, rewards, (State) replayStateArr[i], (Action) replayActionArr[i-1], currentStateAction);
+                            nn.train(prevStateAction, new double[]{updatedQ});
+                        }
+                    }
+                }
+
+                replay.add( currentState);
+                replayAction.add(currentAction);
                 //backpropagation old Q and new Q associated with...
                 scan = true;
             }
@@ -331,6 +383,8 @@ public class BeastRobot extends AdvancedRobot {
         previousState = currentState;
         previousAction = currentAction;
         currentState = new State(enemyDistance/1000.0, xPos/1000.0, yPos/1000.0, myEnergy/100.0, enemyEnergy/100.0);
+        //pick action index based on state index
+        currentAction = getAction(epsilon, currentState);
 
         scan = false;
 
@@ -452,8 +506,6 @@ public class BeastRobot extends AdvancedRobot {
     }
 
 
-
-
     //intermediate rewards update
     public void onBulletMissed(BulletMissedEvent e) {
         if (intermediateRewards) {
@@ -475,15 +527,6 @@ public class BeastRobot extends AdvancedRobot {
 
     }
     public void onBulletHit(BulletHitEvent e) {
-//        if (e.getName() == enemyName) {
-//            if (intermediateRewards) {
-//                rewards = positiveIntermediateReward;
-//
-//            }
-
-
-//        }
-
         if (intermediateRewards) {
             rewards = positiveIntermediateReward;
 
@@ -491,30 +534,6 @@ public class BeastRobot extends AdvancedRobot {
     }
 
     public void onHitByBullet(HitByBulletEvent e) {
-        // Only print if he's not already our target.
-//        if (enemyName != null && !enemyName.equals(e.getName())) {
-//            out.println("Tracking " + e.getName() + " due to collision");
-//        }
-//        // Set the target
-//        enemyName = e.getName();
-//        // Back up a bit.
-        // Note:  We won't get scan events while we're doing this!
-        // An AdvancedRobot might use setBack(); execute();
-//        gunTurnAmt = normalRelativeAngleDegrees(e.getBearing() + (getHeading() - getRadarHeading()));
-//        turnGunRight(gunTurnAmt);
-////        fire(3);
-//        back(50);
-
-//        turnRight(normalRelativeAngleDegrees(90 - (getHeading() - e.getHeading())));
-//
-//        ahead(dist);
-//        dist *= -1;
-//        scan();
-
-//        if (e.getName() == enemyName)
-//            if (intermediateRewards) {
-//                rewards = negativeIntermediateReward;
-//            }
 
         if (intermediateRewards) {
             rewards = negativeIntermediateReward;

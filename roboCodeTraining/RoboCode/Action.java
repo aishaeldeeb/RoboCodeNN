@@ -1,6 +1,8 @@
 package roboCodeTraining.RoboCode;
 
-public class Action {
+import java.util.LinkedList;
+
+public class Action<T> extends LinkedList<T> {
 
     public int action;
     public double[] encodedAction;
