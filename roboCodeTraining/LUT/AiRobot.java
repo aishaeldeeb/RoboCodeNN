@@ -1,15 +1,15 @@
-package roboCodeTraining;
+package roboCodeTraining.LUT;
+
 
 import robocode.*;
 
 
-import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.io.PrintStream;
-import robocode.util.*;
-public class MainRobotV4 extends AdvancedRobot {
 
-    public static LookUpTableV4 lut = new LookUpTableV4();
+public class AiRobot extends AdvancedRobot {
+
+    public static LookUpTable lut = new LookUpTable();
 
     //stats
     public static int rounds;
@@ -102,6 +102,7 @@ public class MainRobotV4 extends AdvancedRobot {
     public static int counter;
     public static int interReward;
 
+
     public static int terminalReward;
 
     public static boolean scan;
@@ -115,13 +116,7 @@ public class MainRobotV4 extends AdvancedRobot {
 
         scan = true;
 
-        counter = 0;
-        leftCount= 0;
-        rightCount = 0;
-        aheadCount = 0;
-        backCount = 0;
-        fireCount =0;
-        count = 0;
+
 //        loadLUT();
 
         if (totalRounds == 0){
@@ -147,10 +142,10 @@ public class MainRobotV4 extends AdvancedRobot {
 
         double bulletPower = Math.min(3.0,getEnergy());
 
-        if (totalRounds >= 10000){
+        if (totalRounds >= 3500){
             epsilon = 0.0;
         }
-        else if(totalRounds < 10000 && totalRounds > 5000 ){
+        else if(totalRounds < 3500 && totalRounds > 2000 ){
             epsilon = 0.7;
         }
         else{
@@ -158,7 +153,7 @@ public class MainRobotV4 extends AdvancedRobot {
         }
 
         while (true) {
-            counter++;
+
 
 //            if (counter > 5){
 //                rewards = 0.0;
@@ -176,7 +171,7 @@ public class MainRobotV4 extends AdvancedRobot {
 
             if (rounds == avgRounds) {
                 //update epsilon value
-                System.out.println("New Epsilon: " + lut.exploreRate + "\n");
+                System.out.println("New Epsilon: " + epsilon + "\n");
                 try {
                     updateLogs();
                 } catch (IOException e) {
@@ -193,6 +188,7 @@ public class MainRobotV4 extends AdvancedRobot {
 
             else {
 
+                counter++;
 
                 quantizedEnemyDistance = lut.quantizeEnemyDistance(enemyDistance);
 //            System.out.println("Enemy Distanc: " + quantizedEnemyDistance);
@@ -204,8 +200,8 @@ public class MainRobotV4 extends AdvancedRobot {
 //            quantizedHeadingCos = lut.quantizeHeading(Math.cos(heading));
 //            quantizedHeadingSin = lut.quantizeHeading(Math.sin(heading));
 
-                track1 = quantizedEnemyEnergy;
-                track2 = quantizedMyEnergy;
+//                track1 = quantizedEnemyEnergy;
+//                track2 = quantizedMyEnergy;
 
                 quantizedMyEnergy = lut.quantizeEnergy(myEnergy);
                 quantizedEnemyEnergy = lut.quantizeEnergy(enemyEnergy);
@@ -216,17 +212,21 @@ public class MainRobotV4 extends AdvancedRobot {
                 actionIndex = lut.getAction(epsilon, quantizedEnemyDistance, quantizedXPos, quantizedYPos, quantizedMyEnergy, quantizedEnemyEnergy);
                 //update look up table
                 if (first) {
+                    counter = 0;
                     lut.updateState(quantizedEnemyDistance, quantizedXPos, quantizedYPos, quantizedMyEnergy, quantizedEnemyEnergy, actionIndex);
                     first = false;
+
                 }
 
 
                 // calculate firepower based on distance
                 double firePower = Math.min(500 / enemyDistance, 3);
 
-                count++;
+
                 switch (actionIndex) {
+
                     case left: {
+
                         leftCount++;
                         setTurnLeft(turnIncrement);
                         setAhead(aheadIncrement);
@@ -257,6 +257,7 @@ public class MainRobotV4 extends AdvancedRobot {
 
                     }
                     case shoot: {
+                        fireCount++;
                         double turn = getHeading() - getGunHeading() + enemyBearingDegrees;
                         if (turn == 360.0 | turn == -360.0) {
                             turn = 0.0;
@@ -482,14 +483,14 @@ public class MainRobotV4 extends AdvancedRobot {
 
     public void updateLogs() throws IOException {
         winRate = 100 * (double) (numWins) / avgRounds;
-        leftRate = 100 * (double) (leftCount) / count;
-        rightRate = 100 * (double) (rightCount) / count;
-        aheadRate = 100 * (double) (aheadCount) / count;
-        backRate = 100 * (double) (backCount) / count;
-        fireRate = 100 * (double) (fireCount) / count;
+        leftRate = 100 * (double) (leftCount) / counter;
+        rightRate = 100 * (double) (rightCount) / counter;
+        aheadRate = 100 * (double) (aheadCount) / counter;
+        backRate = 100 * (double) (backCount) / counter;
+        fireRate = 100 * (double) (fireCount) / counter;
 
 
-        System.out.println("Win Rate" + winRate + "number of wins" + numWins + "rounds" + rounds);
+        System.out.println("Win Rate: " + winRate + "\nnumber of wins: " + numWins + "\nrounds: " + rounds);
 //        saveNumWin();
         saveWinningRate();
 //        saveNumRounds();
@@ -502,6 +503,7 @@ public class MainRobotV4 extends AdvancedRobot {
         aheadCount = 0;
         backCount = 0;
         fireCount = 0;
+        counter = 0;
         rewards = 0.0;
     }
 
@@ -530,7 +532,7 @@ public class MainRobotV4 extends AdvancedRobot {
     public void saveWinningRate(){
         PrintStream file2 = null;
         try {
-            file2 = new PrintStream(new RobocodeFileOutputStream(getDataFile("win_rate.dat").getAbsolutePath(), true));
+            file2 = new PrintStream(new RobocodeFileOutputStream(getDataFile("stats.dat").getAbsolutePath(), true));
             file2.println(totaleRewrd + "," + totalRounds + "," + winRate + "," + epsilon + "," + numWins + "," + rewards + "," + leftRate+ "," + rightRate+ ","+ aheadRate+ ","+ backRate + "," + fireRate);
 //            file2.println( String.format("%1.1f %d %1.1f \n", winRate, totalRounds, lut.exploreRate));
 

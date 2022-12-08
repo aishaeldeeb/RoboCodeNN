@@ -1,24 +1,17 @@
 package roboCodeTraining.NN;
 
-import roboCodeTraining.LookUpTableV4;
-import java.io.File;
+import roboCodeTraining.LUT.LookUpTable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import robocode.*;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-
-import java.io.PrintStream;
 
 
 public class Main{
     static int numInputs = 10;
     static int numOutput = 1;
-    static int numHidden = 8;
+    static int numHidden = 10;
     static double momentum = 0.9;
     public static final int numX = 6;
     public static final int numY = 6;
@@ -31,7 +24,7 @@ public class Main{
 
     public static final int numActions = 5;
 
-    public static LookUpTableV4 lut = new LookUpTableV4();
+    public static LookUpTable lut = new LookUpTable();
     public static double[][] ActionStateQ = new double[numEnemyDis*numEnergy*numEnergy*numX*numY*numActions][numInputs+1];
 
     public static double[][] ActionState = new double[numEnemyDis*numEnergy*numEnergy*numX*numY*numActions][numInputs];

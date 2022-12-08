@@ -1,6 +1,8 @@
-package roboCodeTraining;
+package roboCodeTraining.LUT;
+
 
 import Interfaces.LUTInterface;
+import roboCodeTraining.RoboCode.Action;
 import robocode.RobocodeFileOutputStream;
 import sun.applet.Main;
 
@@ -12,7 +14,7 @@ import java.util.Random;
 
 
 
-public class LookUpTableV4 implements LUTInterface {
+public class LookUpTable implements LUTInterface {
 
     public static double[][][][][][] Table;
     public static int[][][][][][] Visits;
@@ -31,7 +33,7 @@ public class LookUpTableV4 implements LUTInterface {
     public static final int numX = 6;
     public static final int numY = 6;
     public static final int numEnemyDis = 4;
-//    public static final int numHeadingCos = 4;
+    //    public static final int numHeadingCos = 4;
 //    public static final int numHeadingSin = 4;
 //    public static final int numBearingCos = 4;
 //    public static final int numBearingSin = 4;
@@ -41,7 +43,10 @@ public class LookUpTableV4 implements LUTInterface {
 
 
 
-    public LookUpTableV4(){
+
+
+
+    public LookUpTable(){
 //        Table = new double[numHeadingCos][numEnemyDis][numHeadingSin][numX][numY][numActions];
 //        Visits = new int[numHeadingCos][numEnemyDis][numHeadingSin][numX][numY][numActions];
 
@@ -120,17 +125,19 @@ public class LookUpTableV4 implements LUTInterface {
 
     public int quantizeEnemyDistance(double enemyDistanceValue) {
         // 4 Partitions
-        int quanX = (int) (enemyDistanceValue / 10);
+//        int quanX = (int) (enemyDistanceValue / 10);
+
+        int quanX;
 //        if (quanDistance > numEnemyDis - 1) {
 //            quanDistance = numEnemyDis - 1;
 //        }
-        if (quanX >= 0 && quanX <= 3) {
+        if (enemyDistanceValue >= 0 && enemyDistanceValue <= 100) {
             quanX = 0;
-        } else if (quanX >= 3 && quanX < 5) {
+        } else if (enemyDistanceValue >= 100 && enemyDistanceValue < 200) {
             quanX = 1;
-        } else if (quanX >= 5 && quanX < 10) {
+        } else if (enemyDistanceValue >= 200 && enemyDistanceValue < 300) {
             quanX = 2;
-        } else if (quanX >= 10) {
+        } else{
             quanX = 3;
 
         }
@@ -139,17 +146,18 @@ public class LookUpTableV4 implements LUTInterface {
 
     public int quantizeEnergy(double energy){
 
-        int quantEnergy = (int) (energy / 10);
+//        int quantEnergy = (int) (energy / 10);
+        int quantEnergy;
 //        if (quanDistance > numEnemyDis - 1) {
 //            quanDistance = numEnemyDis - 1;
 //        }
-        if (quantEnergy >= 0 && quantEnergy <= 3) {
+        if (energy >= 0 && energy < 30) {
             quantEnergy = 0;
-        } else if (quantEnergy >= 3 && quantEnergy < 5) {
+        } else if (energy >= 30 && energy < 50) {
             quantEnergy = 1;
-        } else if (quantEnergy >= 5 && quantEnergy < 10) {
+        } else if (energy >= 50 && energy < 100) {
             quantEnergy = 2;
-        } else if (quantEnergy >= 10) {
+        } else {
             quantEnergy = 3;
 
         }
@@ -177,23 +185,24 @@ public class LookUpTableV4 implements LUTInterface {
     }
     public int quantizeXPos(double XPos){
         //6 partitions
-        int quanX = (int) (XPos / 100);
-        if (quanX >= 0 && quanX < 1) {
+//        int quanX = (int) (XPos / 100);
+        int quanX;
+        if (XPos >= 0 && XPos < 70) {
             quanX = 0;
         }
-        else if (quanX >= 1 && quanX < 2) {
+        else if (XPos >= 70 && XPos < 140) {
             quanX = 1;
         }
-        else if (quanX >= 2 && quanX < 3) {
+        else if (XPos >= 140 && XPos < 210) {
             quanX = 2;
         }
-        else if (quanX >= 3 && quanX < 4) {
+        else if (XPos >= 210 && XPos < 280) {
             quanX = 3;
         }
-        else if (quanX >= 4 && quanX < 5) {
+        else if (XPos >= 280 && XPos < 350) {
             quanX = 4;
         }
-        else if (quanX >= 5) {
+        else {
             quanX = 5;
         }
 
@@ -289,14 +298,14 @@ public class LookUpTableV4 implements LUTInterface {
 
 
             for (int b = 0; b < numEnemyDis; b++)
-                    for (int d = 0; d < numX; d++)
-                        for (int e = 0; e < numY; e++)
-                            for (int c = 0; c < numEnergy; c++)
-                                for (int g = 0; g < numEnergy; g++)
-                                    for (int f = 0; f < numActions; f++){
-                                        write.println(Visits[b][d][e][c][g][f] + " " + Table[b][d][e][c][g][f]);
-    //                                         write.printf("%d %d %d %d %d %d %1.12f %1.12f", a, b, c, d, e, f, Visits[a][b][c][d][e][f], Table[a][b][c][d][e][f]);
-        //                                    write.println(a + " " + b + " " + c + " " + d + " " + e + " " + f + " " + Visits[a][b][c][d][e][f] + " " + Table[a][b][c][d][e][f]);
+                for (int d = 0; d < numX; d++)
+                    for (int e = 0; e < numY; e++)
+                        for (int c = 0; c < numEnergy; c++)
+                            for (int g = 0; g < numEnergy; g++)
+                                for (int f = 0; f < numActions; f++){
+                                    write.println(Visits[b][d][e][c][g][f] + " " + Table[b][d][e][c][g][f]);
+                                    //                                         write.printf("%d %d %d %d %d %d %1.12f %1.12f", a, b, c, d, e, f, Visits[a][b][c][d][e][f], Table[a][b][c][d][e][f]);
+                                    //                                    write.println(a + " " + b + " " + c + " " + d + " " + e + " " + f + " " + Visits[a][b][c][d][e][f] + " " + Table[a][b][c][d][e][f]);
 
 
                                 }
@@ -309,7 +318,7 @@ public class LookUpTableV4 implements LUTInterface {
             try {
                 if (write != null)
                     write.flush();
-                    write.close();
+                write.close();
             } catch (Exception e) {
 
             }
@@ -446,11 +455,17 @@ public class LookUpTableV4 implements LUTInterface {
                                     QValue = Double.valueOf(words[1]);
 
                                     double[] actionStateArray = new double[numInputsQ];
-                                    actionStateArray[0] = preprocess(b);
-                                    actionStateArray[1] = preprocess(d);
-                                    actionStateArray[2] = preprocess(e);
-                                    actionStateArray[3] = preprocess(c);
-                                    actionStateArray[4] = preprocess(g);
+//                                    actionStateArray[0] = preprocess(b);
+//                                    actionStateArray[1] = preprocess(d);
+//                                    actionStateArray[2] = preprocess(e);
+//                                    actionStateArray[3] = preprocess(c);
+//                                    actionStateArray[4] = preprocess(g);
+
+                                    actionStateArray[0] = deQuantizeEnemyDistance(b);
+                                    actionStateArray[1] = deQuantizeXPos(d);
+                                    actionStateArray[2] = deQuantizeXPos(e);
+                                    actionStateArray[3] = deQuantizeEnergy(c);
+                                    actionStateArray[4] = deQuantizeEnergy(g);
 
                                     //on hot encoding per one action value
                                     actionOnHot = OnHotEncode(f);
@@ -462,7 +477,7 @@ public class LookUpTableV4 implements LUTInterface {
                                     }
 
                                     //store Q value
-                                    actionStateArray[10] = QValue;
+                                    actionStateArray[10] = (QValue);
 
                                     //store the 1d array (row) inside the 2d array
                                     for (int i = 0; i < actionStateArray.length; i++){
@@ -472,7 +487,7 @@ public class LookUpTableV4 implements LUTInterface {
                                     counter++;
                                 }
 
-            double[] QCol = getColumn(stateAction, numInputsQ-1);
+            double[] QCol = getColumn(stateAction, 10);
             double[] norQCol= normalize(QCol);
 //            double[] norQCol= normalize2(QCol);
 
@@ -503,7 +518,7 @@ public class LookUpTableV4 implements LUTInterface {
     }
 
     public double preprocess(int i){
-        return ((double) (i+1.0));
+        return ((double) (i + 1.0) * 100.0);
     }
 
     public double[] OnHotEncode(int i){
@@ -526,7 +541,7 @@ public class LookUpTableV4 implements LUTInterface {
     }
 
     public static double[] getColumn(double[][] arr, int index){
-        double[] column = new double[arr[0].length];
+        double[] column = new double[arr.length];
         for(int i = 0; i < column.length; i++){
             column[i] = arr[i][index];
         }
@@ -558,6 +573,75 @@ public class LookUpTableV4 implements LUTInterface {
         }
         return total;
     }
+
+    public double deQuantizeEnemyDistance(int enemyDistanceValue) {
+        // 4 Partitions
+//        int quanX = (int) (enemyDistanceValue / 10);
+
+        double quanX;
+//        if (quanDistance > numEnemyDis - 1) {
+//            quanDistance = numEnemyDis - 1;
+//        }
+        if (enemyDistanceValue == 0) {
+            quanX = 100.0;
+        } else if (enemyDistanceValue == 1) {
+            quanX = 200.0;
+        } else if (enemyDistanceValue == 2) {
+            quanX = 300.0;
+        } else{
+            quanX = 400.0;
+
+        }
+        return quanX/1000.0;
+    }
+
+    public double deQuantizeEnergy(int energy){
+
+//        int quantEnergy = (int) (energy / 10);
+        double quantEnergy;
+//        if (quanDistance > numEnemyDis - 1) {
+//            quanDistance = numEnemyDis - 1;
+//        }
+        if (energy == 0) {
+            quantEnergy = 10.0;
+        } else if (energy == 1) {
+            quantEnergy = 30.0;
+        } else if (energy == 2) {
+            quantEnergy = 50.0;
+        } else {
+            quantEnergy = 100.0;
+
+        }
+        return quantEnergy/100.0;
+
+    }
+
+    public double deQuantizeXPos(int XPos){
+        //6 partitions
+//        int quanX = (int) (XPos / 100);
+        double quanX;
+        if (XPos == 0) {
+            quanX = 70.0;
+        }
+        else if (XPos == 1) {
+            quanX = 140.0;
+        }
+        else if (XPos == 2) {
+            quanX = 210.0;
+        }
+        else if (XPos == 3) {
+            quanX = 280.0;
+        }
+        else if (XPos == 4) {
+            quanX = 300.0;
+        }
+        else {
+            quanX = 350.0;
+        }
+
+        return quanX/1000.0;
+    }
+
 
 
 }

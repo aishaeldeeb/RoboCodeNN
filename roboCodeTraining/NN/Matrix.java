@@ -17,7 +17,7 @@ class Matrix
         {
             for(int j=0;j<cols;j++)
             {
-                data[i][j]=0.5 - Math.random();
+                data[i][j] = 0.1 - Math.random();
             }
         }
     }
@@ -190,6 +190,19 @@ class Matrix
             for(int j=0;j<cols;j++)
             {
                 temp.add(data[i][j]);
+            }
+        }
+        return temp;
+    }
+
+    public double toDouble(){
+       double temp = 0.0;
+
+        for(int i=0;i<rows;i++)
+        {
+            for(int j=0;j<cols;j++)
+            {
+                temp += data[i][j];
             }
         }
         return temp;

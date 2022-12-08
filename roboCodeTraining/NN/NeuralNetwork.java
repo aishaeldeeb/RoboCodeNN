@@ -1,16 +1,20 @@
 package roboCodeTraining.NN;
 
+
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class NeuralNetwork {
 
-    Matrix weights_ih, weights_ho, bias_h, bias_o,weightChange_ih,weightChange_ho;
-    double l_rate = 0.001;
+    static Matrix weights_ih, weights_ho, bias_h, bias_o,weightChange_ih,weightChange_ho;
+    static double l_rate = 0.001;
 
-    double momentumTerm = 0.9;
+    double momentumTerm;
+    static boolean isBipolar = true;
 
     public NeuralNetwork(int i, int h, int o, double mTerm) {
         weights_ih = new Matrix(h, i);
@@ -22,12 +26,12 @@ public class NeuralNetwork {
         bias_o = new Matrix(o, 1, true);
     }
 
-    public List<Double> predict(double[] X) {
+    public double predict(double[] X) {
         Matrix input = Matrix.fromArray(X);
         Matrix hidden = Matrix.multiply(weights_ih, input);
         hidden.add(bias_h);
 
-        if (Main.isBipolar) {
+        if (isBipolar) {
             hidden.customSigmoid();
         } else {
             hidden.sigmoid();
@@ -37,16 +41,24 @@ public class NeuralNetwork {
         Matrix output = Matrix.multiply(weights_ho, hidden);
         output.add(bias_o);
 
-        if (Main.isBipolar) {
+        if (isBipolar) {
             output.customSigmoid();
         } else {
             output.sigmoid();
         }
 
 
-        return output.toArray();
+        return output.toDouble();
     }
 
+    public double calculateRMSError(List<Double> actualoutputs, double[] expectedoutputs) {
+        double error = 0.0;
+        for (int i = 0; i < expectedoutputs.length; i++) {
+            error += Math.pow(expectedoutputs[i] - actualoutputs.get(i), 2.0);
+        }
+        error = Math.sqrt((error)/expectedoutputs.length) * 100;
+        return error;
+    }
     public double calculateTotalError(List<Double> actualoutputs, double[] expectedoutputs) {
         double error = 0.0;
         for (int i = 0; i < expectedoutputs.length; i++) {
@@ -57,9 +69,13 @@ public class NeuralNetwork {
     }
 
     public void fit(double[][] X, double[] Y) {
+        PrintStream write = null;
+
+
         int epoch = 1;
         ArrayList<double[]> errorVsEpoch = new ArrayList<>();
         double totalError = -0.001;
+        double RMSError;
         List<Double> actualoutputs = new ArrayList<>();
         List<Double> expectedoutputs;
 //        expectedoutputs = Arrays.asList(-1.0,1.0,1.0,-1.0);
@@ -72,20 +88,55 @@ public class NeuralNetwork {
         do {
             for (int i = 0; i < X.length; i++) {
                 this.train(X[i], new double[]{Y[i]});
-                List<Double> x = predict(X[i]);
-                actualoutputs.add(x.get(0));
+                double x = predict(X[i]);
+                actualoutputs.add(x);
 
             }
 //            double[] actualoutputsArr = new double[actualoutputs.size()];
 //            actualoutputsArr = actualoutputs.toArray();
-            totalError = calculateTotalError(actualoutputs, Y);
-            System.out.println("Total Error at Epoch no: " + epoch + "= " + totalError);
-            errorVsEpoch.add(new double[]{totalError, epoch});
+//            totalError = calculateTotalError(actualoutputs, Y);
+            RMSError = calculateRMSError(actualoutputs, Y);
+
+//            System.out.println("Total Error at Epoch no: " + epoch + "= " + totalError);
+            System.out.println(epoch + "," + RMSError);
+
+            errorVsEpoch.add(new double[]{RMSError, epoch});
 
             epoch++;
             actualoutputs.clear();
-        } while (totalError > 0.05);
 
+
+
+            try {
+                write = new PrintStream(new BufferedOutputStream(new FileOutputStream("data1.csv", true)));
+
+                write.println(epoch + "," + RMSError);
+                if (write.checkError())
+                    System.out.println("Could not save the data!");
+                write.close();
+
+            } catch (IOException e) {
+            }
+
+
+
+
+
+
+            try {
+                PlotErrorVsEpoch(errorVsEpoch);
+            } catch(IOException e){
+                System.out.println("IOExpection occured");
+            }
+        } while (RMSError > 0.05);
+
+        try {
+            if (write != null)
+                write.flush();
+            write.close();
+        } catch (Exception e) {
+
+        }
 
         try {
             PlotErrorVsEpoch(errorVsEpoch);
@@ -95,11 +146,13 @@ public class NeuralNetwork {
     }
 
     public void train(double[] X, double[] Y) {
+
+
         Matrix input = Matrix.fromArray(X);
         Matrix hidden = Matrix.multiply(weights_ih, input);
         hidden.add(bias_h);
 
-        if (Main.isBipolar) {
+        if (isBipolar) {
             hidden.customSigmoid();
         }else {
             hidden.sigmoid();
@@ -110,7 +163,7 @@ public class NeuralNetwork {
         output.add(bias_o);
 
 
-        if (Main.isBipolar) {
+        if (isBipolar) {
             output.customSigmoid();
         }else{
             output.sigmoid();
@@ -122,7 +175,7 @@ public class NeuralNetwork {
         Matrix error = Matrix.subtract(target, output);
         Matrix gradient;
 
-        if (Main.isBipolar) {
+        if (isBipolar) {
             gradient = output.dCustomsigmoid();
         }else{
             gradient = output.dsigmoid();
@@ -145,7 +198,7 @@ public class NeuralNetwork {
         Matrix hidden_errors = Matrix.multiply(who_T, error);
         Matrix h_gradient;
 
-        if (Main.isBipolar) {
+        if (isBipolar) {
             h_gradient = hidden.dCustomsigmoid();
         }else{
             h_gradient = hidden.dsigmoid();
@@ -184,7 +237,7 @@ public class NeuralNetwork {
                 xAxis("Epoch", Plot.axisOpts().
                         range(0, 200)).
                 yAxis("Error", Plot.axisOpts().
-                        range(0, 3)).
+                        range(0, 70)).
                 series("Data", Plot.data().
                                 xy(epochs, errors),
                         Plot.seriesOpts().
